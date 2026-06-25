@@ -1,9 +1,6 @@
 # smokeping_prober
 
-[![Build Status](https://github.com/SuperQ/smokeping_prober/actions/workflows/ci.yml/badge.svg)](https://github.com/SuperQ/smokeping_prober/actions/workflows/ci.yml)
-[![Docker Repository on Quay](https://quay.io/repository/superq/smokeping-prober/status "Docker Repository on Quay")](https://quay.io/repository/superq/smokeping-prober)
-
-Prometheus style "smokeping" prober.
+Prometheus style "smokeping" prober. Single-binary docker image.
 
 ![Example Graph](example-graph.png)
 
@@ -63,32 +60,16 @@ The interval Duration is in [Go time.ParseDuration()](https://golang.org/pkg/tim
 
 The config is read on startup, and can be reloaded with the SIGHUP signal, or with an HTTP POST to the URI path `/-/reload`.
 
-## Building and running
-
-Requires Go >= 1.22
-
-```console
-go install github.com/SuperQ/smokeping_prober@latest
-sudo setcap cap_net_raw=+ep ${GOPATH}/bin/smokeping_prober
-```
-
-On multi-cpu systems it is typically more efficient to limit the prober to one CPU in order to
-reduce the number of cross-cpu context switches and packet copies from the kernel to the prober.
-This can be done with the `GOMAXPROCS` environment variable, or by using container (cgroup) limits.
-
-```console
-export GOMAXPROCS=1
-./smokeping_prober <targets>
-```
-
-## Docker
+## Building and running with Docker
 
 ```bash
+docker build . --tag smokeping_prober:local
+
 docker run \
   -p 9374:9374 \
   --privileged \
   --env GOMAXPROCS=1 \
-  quay.io/superq/smokeping-prober:latest \
+  smokeping_prober:local \
   some-ping-target.example.com
 ```
 
