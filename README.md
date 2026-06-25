@@ -2,6 +2,8 @@
 
 Prometheus style "smokeping" prober. Single-binary docker image.
 
+NOTE: If this package falls out of sync with upstream and you use it, please raise issue to inform me and I will sync up.
+
 ![Example Graph](example-graph.png)
 
 ## Overview
